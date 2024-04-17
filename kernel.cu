@@ -1,6 +1,10 @@
 ﻿
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
+#include "find.h"
+#include "slice.h"
+#include <stdlib.h>
+
 
 #include <stdio.h>
 
@@ -34,8 +38,14 @@ int main()
     cudaStatus = cudaDeviceReset();
     if (cudaStatus != cudaSuccess) {
         fprintf(stderr, "cudaDeviceReset failed!");
+        
+
         return 1;
     }
+    /////////////////////////////////////////////////////////////////////
+    InitArrays();
+    Slice* S = new Slice;
+    /////////////////////////////////////////////////////////////////////
 
     return 0;
 }
