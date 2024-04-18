@@ -1177,3 +1177,10 @@ void InitArrays()
 //    return 0;
 //
 //}
+
+
+__global__ void get_kernel(unsigned long long int* d_v, unsigned char* d_num, bool get, int n)
+{
+	int num = get_position_bit(d_v, n);
+	*d_num = (unsigned char)num;
+}

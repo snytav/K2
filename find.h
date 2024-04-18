@@ -49,5 +49,7 @@ __host__ __device__  int get_64bit_word(int num,int div);
 __device__ unsigned long long int get_array(unsigned long long  int *x,int n,int size);
 
 __global__ void set_kernel(unsigned long long int *dst,unsigned long long int *src);
+//__global__ void get_kernel(unsigned long long int* d_v, unsigned char* d_num, bool get, int n)
+
 
 #endif /* FIND_H_ */
