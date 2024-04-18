@@ -1,7 +1,7 @@
 ﻿
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-//#include "find.h"
+#include "find.h"
 //#include "slice.h"
 #include <stdlib.h>
 
@@ -43,7 +43,7 @@ int main()
         return 1;
     }
     /////////////////////////////////////////////////////////////////////
-   // InitArrays();
+    InitArrays();
     //Slice* S = new Slice;
     /////////////////////////////////////////////////////////////////////
 
