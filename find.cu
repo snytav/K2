@@ -1265,4 +1265,26 @@ int Slice::NUMB()
 	return h_first_non_zero;
 }
 
+__global__ void numb_thrust(int* dev_vec, LongPointer d_v)
+{
+	int k;
+	unsigned long long int zero = 1;
+	int tid = threadIdx.x + blockIdx.x * blockDim.x;
+	if (tid < N1)
+	{
+		dev_vec[tid] = __popcll(d_v[tid]);
+		//      printf("%i  ",dev_vec[tid]);
+	}
+	//  else dev_vec[tid]=0;
+	if (tid == (N1 - 1)) // in the last element need to zero the tail
+	{
+		/*zero=(1<<(num % SIZE_OF_LONG_INT)-1)-1;
+		  zero=~zero;*/
+		k = (LENGTH1 % SIZE_OF_LONG_INT);
+		//    	printf("k=%i\n",k);
+		zero = (zero << k) - 1;
+		zero &= d_v[tid];
+		dev_vec[tid] = __popcll(zero);
+	}
+}
 
