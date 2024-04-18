@@ -82,3 +82,10 @@ void Slice::SET()
 	printf("error after set_lon_values %d \n", err);
 #endif
 }
+
+//заполнить нулями,
+void Slice::CLR()
+{
+	unsigned long long int zero = 0;
+	set_long_values << <NN, 1 >> > (d_v, zero);
+}
