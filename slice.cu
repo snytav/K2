@@ -43,3 +43,9 @@ int Slice::Init(unsigned int k)
 
 	return err;
 }
+
+__global__ void set_long_values(unsigned long long int* d_v, unsigned long long int num)
+{
+
+	d_v[blockIdx.x] = num;
+}
