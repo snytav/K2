@@ -89,3 +89,25 @@ void Slice::CLR()
 	unsigned long long int zero = 0;
 	set_long_values << <NN, 1 >> > (d_v, zero);
 }
+
+__global__ void set_mask_values(unsigned long long int* d_v, int num)
+{
+	unsigned long long int zero = 1;
+	int num_el = num >> 6; // номер элемента, содержащий переход от 0 к 1;
+	int el = num % SIZE_OF_LONG_INT;
+	//  printf("%i in %i \n", num,num_el);
+	if (blockIdx.x == num_el)
+	{
+		zero = (el == 0) ? 0 : (zero << (el - 1)) - 1;
+		zero = ~zero;
+	}
+	else
+	{
+		zero = 0;
+		if (blockIdx.x > num_el)
+		{
+			zero = ~zero;
+		}
+	}
+	d_v[blockIdx.x] = zero;
+}
