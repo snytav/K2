@@ -1184,3 +1184,8 @@ __global__ void get_kernel(unsigned long long int* d_v, unsigned char* d_num, bo
 	int num = get_position_bit(d_v, n);
 	*d_num = (unsigned char)num;
 }
+
+__global__ void put(unsigned long long int* d_v, unsigned char d_num, int n)
+{
+	assign_bit(d_v, n, d_num, SET);
+}

@@ -116,3 +116,4 @@ void Slice::MASK(int i)
 {
 	set_mask_values << <NN, 1 >> > (d_v, i);
 }
+
