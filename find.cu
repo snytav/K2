@@ -1,6 +1,7 @@
 
 #include "find.h"
 #include "param.h"
+#include "slice.h"
 //#include "star_kernel.h"
 #include <stdio.h>
 #include <math.h>
@@ -1188,4 +1189,27 @@ __global__ void get_kernel(unsigned long long int* d_v, unsigned char* d_num, bo
 __global__ void put(unsigned long long int* d_v, unsigned char d_num, int n)
 {
 	assign_bit(d_v, n, d_num, SET);
+}
+
+//доступ к i-ой компоненте слайса, как на чтение, так и на запись,
+unsigned char Slice::get(int i)
+{
+	//	cudaError_t   err = cudaGetLastError();
+	//    printf("begin get %d, %d , %s \n",i,err,cudaGetErrorString(err));
+	unsigned char n;
+	static int flag = 1;
+	static unsigned char* d_n;
+	if (flag == 1)
+	{
+		cudaMalloc(&d_n, sizeof(unsigned char));
+		flag = 0;
+	}
+	get_kernel << <1, 1 >> > (d_v, d_n, 1, i);
+
+	cudaMemcpy(&n, d_n, sizeof(unsigned char), cudaMemcpyDeviceToHost);
+	//	err = cudaGetLastError();
+	//	printf("end get %d, %d , %s \n",i,err,cudaGetErrorString(err));
+	//	if(err!=0)exit(0);
+	//   printf("get_ %d : %us \n", i,n);
+	return (unsigned char)n;
 }
