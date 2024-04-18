@@ -49,3 +49,36 @@ __global__ void set_long_values(unsigned long long int* d_v, unsigned long long 
 
 	d_v[blockIdx.x] = num;
 }
+
+//заполнить единичками,
+void Slice::SET()
+{
+	unsigned long long int zero = 0;
+	zero = ~zero;
+#ifdef ss
+	char s[100];
+	long_to_binary(zero, s);
+	printf("SET %s \n", s);
+
+
+	cudaError_t err = cudaGetLastError();
+	printf("error before set_lon_values %d \n", err);
+	cudaError_t err_c = cudaMemcpy(h_v, d_v, sizeof(unsigned long long int), cudaMemcpyDeviceToHost);
+	long_to_binary(h_v[0], s);
+	printf("h_v[0] %llu err %d %s\n", h_v[0], err_c, s);
+	print("q1", 1);
+#endif
+	set_long_values << <NN, 1 >> > (d_v, zero);
+	//    printf("SET: %i->%llu \n",NN,zero);
+#ifdef qq
+	err_c = cudaMemcpy(h_v, d_v, sizeof(unsigned long long int), cudaMemcpyDeviceToHost);
+	long_to_binary(h_v[0], s);
+	printf("h_v[0] %llu err %d %s\n", h_v[0], err_c, s);
+
+
+	print("q2", 1);
+
+	err = cudaGetLastError();
+	printf("error after set_lon_values %d \n", err);
+#endif
+}
