@@ -1219,3 +1219,28 @@ void Slice::set(int i, unsigned char n)
 
 	put << <1, 1 >> > (d_v, n, i);
 }
+
+// - выдает номер старшей единичке в слайсе Y
+int Slice::FND()
+{
+	int h_first_non_zero;
+	static 	int* d_first_non_zero;
+	static int flag_malloc = 1;
+
+
+	if (flag_malloc == 1)
+	{
+		cudaMalloc(&d_first_non_zero, sizeof(int));
+		flag_malloc = 0;
+	}
+	//    print_device_bit_row("FND",d_v,NN*SIZE_OF_LONG_INT,0,NN);
+
+	first(d_v, NN, d_first_non_zero, NN);
+
+	cudaMemcpy(&h_first_non_zero, d_first_non_zero, sizeof(int), cudaMemcpyDeviceToHost);
+	if (h_first_non_zero > length)
+		h_first_non_zero = 0;
+	//    printf("FND %i",h_first_non_zero);
+	return h_first_non_zero;
+}
+
