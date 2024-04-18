@@ -1213,3 +1213,9 @@ unsigned char Slice::get(int i)
 	//   printf("get_ %d : %us \n", i,n);
 	return (unsigned char)n;
 }
+
+void Slice::set(int i, unsigned char n)
+{
+
+	put << <1, 1 >> > (d_v, n, i);
+}
