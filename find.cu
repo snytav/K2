@@ -1288,3 +1288,13 @@ __global__ void numb_thrust(int* dev_vec, LongPointer d_v)
 	}
 }
 
+__global__ void fnd_thrust(int* dev_vec, LongPointer d_v)
+{
+	int tid = threadIdx.x + blockIdx.x * blockDim.x;
+	if (tid < N1)
+	{
+		int fnd_tid = (__ffsll(d_v[tid]) != 0) ? (__ffsll(d_v[tid]) + tid * SIZE_OF_LONG_INT) : (SIZE_OF_LONG_INT * N1 + 1);
+		dev_vec[tid] = fnd_tid;
+		//      printf("%i  ",dev_vec[tid]);
+	}
+}
