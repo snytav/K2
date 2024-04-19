@@ -1360,3 +1360,34 @@ void Slice::OR(const Slice* b)
 {
 	or_long_values << <NN, 1 >> > (d_v, b->d_v);
 }
+
+
+Slice Slice::operator | (const Slice& b)
+{
+
+	or_long_values << <NN, 1 >> > (d_v, b.d_v);
+
+	return *this;
+}
+void Slice::XOR(const Slice* b)
+{
+	xor_long_values << <NN, 1 >> > (d_v, b->d_v);
+}
+Slice Slice::operator ^ (const Slice& b)
+{
+
+	xor_long_values << <NN, 1 >> > (d_v, b.d_v);
+
+	return *this;
+}
+
+Slice Slice::operator ~()
+{
+	not_long_values << <NN, 1 >> > (d_v);
+	return *this;
+}
+// - true, если X ненулевой.
+void Slice::NOT()
+{
+	not_long_values << <NN, 1 >> > (d_v);
+}
