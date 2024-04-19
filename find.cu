@@ -1315,3 +1315,48 @@ __global__ void and_long_values(unsigned long long int* d_v, unsigned long long 
 {
 	d_v[blockIdx.x] &= d_v1[blockIdx.x];
 }
+
+
+__global__ void or_long_values(unsigned long long int* d_v, unsigned long long int* d_v1)
+{
+#ifdef ssss
+	unsigned long long old, old1;
+	char s_old[100], s_old1[100], res[100];
+	old = d_v[blockIdx.x];
+	old1 = d_v1[blockIdx.x];
+
+	long_to_binary(old, s_old);
+	long_to_binary(old1, s_old1);
+#endif
+	d_v[blockIdx.x] |= d_v1[blockIdx.x];
+#ifdef ssss
+	long_to_binary(d_v[blockIdx.x], res);
+	printf("blockIdx.x %u old %llu %s %llu %s %llu %s\n", blockIdx.x, old, s_old, old1, s_old1, d_v[blockIdx.x], res);
+#endif
+
+}
+
+__global__ void xor_long_values(unsigned long long int* d_v, unsigned long long int* d_v1)
+{
+	d_v[blockIdx.x] ^= d_v1[blockIdx.x];
+}
+
+__global__ void not_long_values(unsigned long long int* d_v)
+{
+	d_v[blockIdx.x] = ~d_v[blockIdx.x];
+}
+
+Slice Slice::operator & (const Slice& b)
+{
+	and_long_values << <NN, 1 >> > (d_v, b.d_v);
+
+	return *this;
+}
+void Slice::AND(const Slice* b)
+{
+	and_long_values << <NN, 1 >> > (d_v, b->d_v);
+}
+void Slice::OR(const Slice* b)
+{
+	or_long_values << <NN, 1 >> > (d_v, b->d_v);
+}
