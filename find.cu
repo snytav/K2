@@ -1309,3 +1309,9 @@ int Slice::STEP()
 	//	printf("vertex %i ",f);
 	return f;
 }
+
+//Побитовые X and Y, not X, X or Y, X xor Y
+__global__ void and_long_values(unsigned long long int* d_v, unsigned long long int* d_v1)
+{
+	d_v[blockIdx.x] &= d_v1[blockIdx.x];
+}
