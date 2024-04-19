@@ -1298,3 +1298,14 @@ __global__ void fnd_thrust(int* dev_vec, LongPointer d_v)
 		//      printf("%i  ",dev_vec[tid]);
 	}
 }
+
+// - то же самое, но эту единичку заменяет на ноль
+int Slice::STEP()
+{
+	//	print_device_bit_row("STEP",d_v,NN*SIZE_OF_LONG_INT,0,NN);
+	int f = FND();
+	if (f > 0)set(f, 0);
+	//	print_device_bit_row("S_res",d_v,NN*SIZE_OF_LONG_INT,0,NN);
+	//	printf("vertex %i ",f);
+	return f;
+}
