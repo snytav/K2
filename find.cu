@@ -1391,3 +1391,10 @@ void Slice::NOT()
 {
 	not_long_values << <NN, 1 >> > (d_v);
 }
+
+bool Slice::SOME()
+{
+	int f = FND();
+	//  printf("SOME %d \n", f);
+	return (f > 0);
+}
