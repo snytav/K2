@@ -1398,3 +1398,34 @@ bool Slice::SOME()
 	//  printf("SOME %d \n", f);
 	return (f > 0);
 }
+
+bool Slice::ZERO()
+{
+	int f = FND();
+	//   printf("ZERO %d \n", f);
+	return (f == 0);
+}
+unsigned long long int char_to_long(char* s)
+{
+	unsigned long long int u = 0, u1, t;
+	double d;
+	//	char str[LENGTH1];
+	//    puts("char_to_long");
+	int len = (LENGTH1 < SIZE_OF_LONG_INT ? LENGTH1 : SIZE_OF_LONG_INT);
+
+	for (int i = 0; i < len; i++)
+	{
+#ifdef ssss
+		printf("i %d\n", i);
+#endif
+		d = pow(2.0, (double)i);
+		t = (unsigned long long int)ceil(d);
+		u1 = (s[i] - '0') * t;
+		u += u1;
+#ifdef ssss
+		long_to_binary(u, str);
+		printf("i %d d %40.25e t %25llu s[i] %c u1 %25llu u %25llu %s\n", i, d, t, s[i], u1, u, str);
+#endif
+	}
+	return u;
+}
