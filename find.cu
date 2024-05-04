@@ -1214,6 +1214,8 @@ unsigned char Slice::get(int i)
 	return (unsigned char)n;
 }
 
+
+
 void Slice::set(int i, unsigned char n)
 {
 
@@ -1398,6 +1400,28 @@ bool Slice::SOME()
 	//  printf("SOME %d \n", f);
 	return (f > 0);
 }
+
+bool Slice::SOME1()
+{
+	int h_if_zero;
+	static  int* d_if_zero;
+	static int flag_malloc = 1;
+
+	if (flag_malloc == 1)
+	{
+		cudaMalloc(&d_if_zero, sizeof(int));
+		flag_malloc = 0;
+	}
+	//    print_device_bit_row("FND",d_v,NN*SIZE_OF_LONG_INT,0,NN);
+
+	some(d_v, NN, d_if_zero, NN);
+
+	cudaMemcpy(&h_if_zero, d_if_zero, sizeof(int), cudaMemcpyDeviceToHost);
+
+	printf("SOME1 %d \n", h_if_zero);
+	return (h_if_zero != 0);
+}
+
 
 bool Slice::ZERO()
 {
